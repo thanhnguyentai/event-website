@@ -16,13 +16,13 @@
 </head>
 
 <body>
-    <div class="page-wrapper">
-        <div class="page-wrapper-content">
-            {{> body }}
-        </div>
+    <div id="pageWrapper" class="page-wrapper">
+        {{> body }}
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+
+    <script src="./js/lib/bower/require.js" data-main="./js/main-async"></script>
 </body>
 
 </html>

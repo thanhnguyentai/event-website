@@ -1,7 +1,5 @@
 ﻿{
     "paths": [
-        { "id": "Home", "path": "home.html" },
-		{ "id": "Video", "path": "video.html" },
-		{ "id": "Invitation", "path": "invitation.html" }
+        { "id": "Home", "path": "home.html" }
     ]
 }

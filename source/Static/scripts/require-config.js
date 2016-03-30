@@ -17,7 +17,7 @@
 }(this, function (requirejs) {
 	'use strict';
 	requirejs.config({
-		baseUrl: '/../js/',
+		baseUrl: './js/',
 		paths: {
 			base: 'src',
 			jquery: 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min',

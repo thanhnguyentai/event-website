@@ -2,5 +2,7 @@ design/
 source/css/
 source/fonts/
 source/js/
+source/img/
+source/videos/
 source/node_modules/
 source/*.html

@@ -137,6 +137,12 @@ module.exports = function (grunt) {
                 cwd: '<%= project.dirs.fonts.main %>',
                 src: ['**/*{eot,svg,ttf,woff,woff2}'],
                 dest: '<%= project.dirs.fonts.out %>'
+            },
+            videos: {
+                expand: true,
+                cwd: '<%= project.dirs.videos.main %>',
+                src: ['**'],
+                dest: '<%= project.dirs.videos.out %>'
             }
         },
         
@@ -215,8 +221,8 @@ module.exports = function (grunt) {
             images: ['<%= project.dirs.images.out %>/*'],
             scripts: ['<%= project.dirs.scripts.out %>/**/*'],
             templates: ['<%= project.dirs.scripts.templates %>/*'],
-            fonts: ['<%= project.dirs.fonts.out %>/*']
-            //videos: ['<%= project.dirs.videos.out %>/*']
+            fonts: ['<%= project.dirs.fonts.out %>/*'],
+            videos: ['<%= project.dirs.videos.out %>/*']
         },
         
         watch: {
