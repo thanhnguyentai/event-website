@@ -1,6 +1,6 @@
 design/
-./css/
-./fonts/
-./js/
-./node_modules/
-*.html
+source/css/
+source/fonts/
+source/js/
+source/node_modules/
+source/*.html
