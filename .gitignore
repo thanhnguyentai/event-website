@@ -1,1 +1,6 @@
 design/
+./css/
+./fonts/
+./js/
+./node_modules/
+*.html
