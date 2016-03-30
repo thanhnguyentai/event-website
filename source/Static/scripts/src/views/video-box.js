@@ -21,6 +21,33 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($
 
             initialize: function () {
                 this.videoHeight = this.$el.height();
+
+                this.registerEvent();
+            },
+
+            registerEvent: function(){
+                var isFullScreen = false;
+
+                var exitFullscreen = function () {
+                    if(document.exitFullscreen) {
+                        document.exitFullscreen();
+                    } else if(document.mozCancelFullScreen) {
+                        document.mozCancelFullScreen();
+                    } else if(document.webkitExitFullscreen) {
+                        document.webkitExitFullscreen();
+                    }
+                }
+
+                this.$el.find('video').on('ended', function(){
+                    console.log('video ended');
+                    if(isFullScreen){
+                        exitFullscreen();
+                    }
+                });
+
+                this.$el.find('video').on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function(){
+                    isFullScreen = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
+                });
             },
 
             showVideo: function() {
