@@ -55,11 +55,17 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($
 
                 animate(this.$el.find('#passwordBox'), {
                     translateY: this.videoHeight / 2 + this.$el.find('#passwordBox').height() / 2 + 50 + "px"
-                }, { duration: 750});
+                }, { 
+                    duration: 750,
+                    easing: "easeInOutSine"
+                });
 
                 animate(this.$el.parent().find('.footer-logo'), {
                     translateY: this.$el.find('#passwordBox').height() + 50 + "px"
-                }, { duration: 750});
+                }, { 
+                    duration: 750,
+                    easing: "easeInOutSine"
+                });
             }
         });
     }

@@ -47,16 +47,29 @@
 	margin: 100px auto 0;
 	
 	&.active {
+		.video-content {
+			opacity: 1;
+		}
+		
 		img, video {
 			opacity: 1;
 			pointer-events: auto;
 		}
 	}
 
+	.video-content {
+		width: 800px;
+		border: 1px solid #f5c10e;
+		opacity: 0;
+		margin: 0 auto;
+		position: relative;
+	}
+
 	img {
 		position: relative;
 		z-index: 0;
-		max-width: 800px;
+		width: 100%;
+		display: block;
 		opacity: 0;
 
 		pointer-events: none;
@@ -75,5 +88,46 @@
 		pointer-events: none;
 		transition: opacity 1s;
 
+	}
+}
+
+.main-page {
+	&__container {
+		
+	}
+}
+.logos-container {
+	.site-logo {
+		img {}
+	}
+	.and-text {
+
+	}
+	.customer-logo {
+		img {}
+	}
+}
+.main-content {
+	&__container {
+
+	}
+	&__title {
+		h1 {}
+		p {}
+	}
+	&__separate {}
+	&__body {}
+	&__footer {
+		&__top {}
+		&__signature {
+			.signature-item {
+				&__text {
+
+				}
+				&__full-name {
+				
+				}
+			}
+		}
 	}
 }
