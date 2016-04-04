@@ -15,7 +15,9 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($
 
     function backboneInit() {
         return Backbone.View.extend({
+            isFillPassword: false,
             events: {                
+                'click': 'viewMainPage'
             },
 
             initialize: function () {
@@ -39,6 +41,7 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($
                         _self.$el.trigger('passwordDone');
                         _self.$el.find('span').html(continueText);
                         isCheckFillPassword = false;
+                        _self.isFillPassword = true;
                     }
                     else{
                         password += String.fromCharCode(e.which);
@@ -64,6 +67,18 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($
                         }
                     }
                 });
+            },
+
+            viewMainPage: function() {
+                if(this.isFillPassword) {
+                    animate(this.$el, {
+                        scale: 10,
+                        translateY: "0px"
+                    }, { 
+                        duration: 1000,
+                        easing: "easeInOutSine"
+                    });
+                }
             }
         });
     }

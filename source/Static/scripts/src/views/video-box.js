@@ -16,7 +16,8 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($
     function backboneInit() {
         return Backbone.View.extend({
             events: {      
-                'passwordDone': 'showVideo'
+                'passwordDone': 'showVideo',
+                'clickPasswordBox': 'showFinalPage'
             },
 
             initialize: function () {
@@ -66,6 +67,10 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($
                     duration: 750,
                     easing: "easeInOutSine"
                 });
+            },
+
+            showFinalPage: function() {
+
             }
         });
     }
