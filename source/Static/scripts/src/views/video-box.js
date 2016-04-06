@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($, _, backbone, animate) {
+define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/modules/screenFull'], function ($, _, backbone, animate, screenFull) {
 
     'use strict';
 
@@ -27,27 +27,16 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($
             },
 
             registerEvent: function(){
-                var isFullScreen = false;
-
-                var exitFullscreen = function () {
-                    if(document.exitFullscreen) {
-                        document.exitFullscreen();
-                    } else if(document.mozCancelFullScreen) {
-                        document.mozCancelFullScreen();
-                    } else if(document.webkitExitFullscreen) {
-                        document.webkitExitFullscreen();
-                    }
-                }
-
+                var _self = this;
                 this.$el.find('video').on('ended', function(){
-                    console.log('video ended');
-                    if(isFullScreen){
-                        exitFullscreen();
+                    if(screenFull.isFullscreen){
+                        screenFull.exit();
                     }
-                });
 
-                this.$el.find('video').on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function(){
-                    isFullScreen = document.fullScreen || document.mozFullScreen || document.webkitIsFullScreen;
+                    var timeout = setTimeout(function() {
+                        clearTimeout(timeout);
+                        _self.showFinalPage();
+                    }, 1000);
                 });
             },
 
@@ -70,7 +59,38 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($
             },
 
             showFinalPage: function() {
+                if(this.isShowingFinalPage)
+                    return;
 
+                this.isShowingFinalPage = true;
+
+                var _self = this;
+
+                var windowWidth = $(window).width();
+                var boxWidth = $('#passwordBox').width();
+
+                animate($('body'), 'scroll', { offset: 0, duration: 250, easing: "easeInOutQuad" });
+
+                animate($('#passwordBox'), {
+                    scale: 1.5 * Math.round(windowWidth/boxWidth),
+                    translateY: "0px"
+                }, { 
+                    duration: 1000,
+                    easing: "easeInOutSine"
+                }).then(function(){
+                    animate($('#firstPageContainer'), "fadeOut", { 
+                        duration: 500,
+                        easing: "easeInOutSine"
+                    });
+
+                    $('#finalPageContainer').css('display', 'block');
+                    animate($('#finalPageContainer'), "fadeIn", {
+                        duration: 500,
+                        easing: "easeInOutSine"
+                    }).then(function() {
+                        $('#finalPageContainer').addClass('active');
+                    }); 
+                });
             }
         });
     }

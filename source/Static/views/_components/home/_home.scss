@@ -29,8 +29,18 @@
 		display: inline-block;
 	}
 
-	span {
-		display: inline-block;
+	&.active {
+		cursor: pointer;
+		.password-text {
+			display: inline-block;
+		}
+		.password-input {
+			display: none;
+		}
+	}
+
+	.password-text {
+		display: none;
 		font-size: rem(15px);
 		line-height: 20px;
 		color: #f5c10e;
@@ -39,6 +49,39 @@
 		letter-spacing: 4px;
 		max-width: 90%;
 		overflow: hidden;
+	}
+
+	.password-input {
+		display: inline-block;
+		font-size: rem(15px);
+		line-height: 20px;
+		color: #f5c10e;
+		vertical-align: middle;
+		text-transform: uppercase;
+		letter-spacing: 4px;
+		width: 100%;
+		max-width: 90%;
+		overflow: hidden;
+		text-align: center;
+		background: none;
+		border: none;
+		outline: none;
+
+		&::-webkit-input-placeholder {
+		   color: #f5c10e;
+		}
+
+		&:-moz-placeholder { /* Firefox 18- */
+		   color: #f5c10e;
+		}
+
+		&::-moz-placeholder {  /* Firefox 19+ */
+		   color: #f5c10e;
+		}
+
+		&:-ms-input-placeholder {  
+		   color: #f5c10e;
+		}
 	}
 }
 
@@ -100,37 +143,48 @@
 	}
 }
 
-.main-page {
-	&__container {
-		position: absolute;
-		opacity: 0;
-		display: none;
+.main-page__container {
+	position: absolute;
+	opacity: 0;
+	display: none;
 
-		top: 55px;
+	top: 55px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	padding: 0 15px;
+	width: 100%;
+
+	&.active {
+		position: relative;
+		top: 0px;
+		margin: 55px auto 0;
 		left: 0px;
-		padding: 0 15px;
-		width: 100%;
+		transform: translate(0,0);
+	}
 
-		&.active {
-			position: relative;
-			top: 0px;
-			margin: 55px auto 0;
-		}
-
-		@include respond-to-min($tabletWidth) {
-			max-width: 760px;
-			padding: 0;
-		}
+	@include respond-to-min($tabletWidth) {
+		max-width: 760px;
+		padding: 0;
 	}
 }
 .logos-container {
 	margin: 0 auto 50px;
 	.site-logo {
+		opacity: 0;
+
+		.main-page__container.active & {
+			-webkit-animation: fadeIn 1s ease-in-out 0.5s forwards;
+		  	-moz-animation: fadeIn 1s ease-in-out 0.5s forwards;
+		  	-ms-animation: fadeIn 1s ease-in-out 0.5s forwards;
+		  	animation: fadeIn 1s ease-in-out 0.5s forwards;
+		}
+
 		img {
 			display: inline-block;
 		}
 	}
 	.and-text {
+		opacity: 0;
 		display: inline-block;
 		font-size: rem(14px);
 		line-height: rem(18px);
@@ -142,8 +196,24 @@
 			font-size: rem(16px);
 			line-height: rem(20px);
 		}
+
+		.main-page__container.active & {
+			-webkit-animation: fadeIn 1s ease-in-out 1.5s forwards;
+		  	-moz-animation: fadeIn 1s ease-in-out 1.5s forwards;
+		  	-ms-animation: fadeIn 1s ease-in-out 1.5s forwards;
+		  	animation: fadeIn 1s ease-in-out 1.5s forwards;
+		}
 	}
 	.customer-logo {
+		opacity: 0;
+
+		.main-page__container.active & {
+			-webkit-animation: fadeIn 1s ease-in-out 2.5s forwards;
+		  	-moz-animation: fadeIn 1s ease-in-out 2.5s forwards;
+		  	-ms-animation: fadeIn 1s ease-in-out 2.5s forwards;
+		  	animation: fadeIn 1s ease-in-out 2.5s forwards;
+		}
+
 		img {
 			display: inline-block;
 		}
@@ -153,6 +223,14 @@
 	&__container {
 		text-align: center;
 		color: #f8f8f8;
+		opacity: 0;
+
+		.main-page__container.active & {
+			-webkit-animation: fadeIn 1s ease-in-out 3.5s forwards;
+		  	-moz-animation: fadeIn 1s ease-in-out 3.5s forwards;
+		  	-ms-animation: fadeIn 1s ease-in-out 3.5s forwards;
+		  	animation: fadeIn 1s ease-in-out 3.5s forwards;
+		}
 	}
 	&__title {
 		h1 {
@@ -160,7 +238,7 @@
 			font-family: 'GaramondPremierPro';
 			font-size: rem(24px);
 			line-height: rem(34px);
-			text-transform: uppercase;
+			text-transform: uppercase;			
 
 			@include respond-to-min($tabletWidth) {
 				font-size: rem(30px);

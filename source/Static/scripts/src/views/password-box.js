@@ -25,59 +25,68 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($
             },
 
             registerEvent: function() {
-                var isCheckFillPassword = true;
-
-                var defaultText = "Password";
-                var continueText = "Continue<br/>To invitation";
-                var password = "";
-                var encodePassword = "";
                 var _self = this;
 
-                $('body').on('keypress', function(e){
-                    if(!isCheckFillPassword)
-                        return;
+                this.$el.find('.password-input').focus();
+                this.$el.find('.password-input').on('keypress', function(e){
+                    e.stopPropagation();
 
                     if(e.which == 13){ // enter
-                        _self.$el.trigger('passwordDone');
-                        _self.$el.find('span').html(continueText);
-                        isCheckFillPassword = false;
-                        _self.isFillPassword = true;
+                        var password = $(this).val();
+                        if(password.length > 0){
+                            $(this).blur();
+                            _self.completeFillPassword();
+                        }
+                    }
+                });
+
+                this.$el.find('.password-input').on('keyup', function(e){
+                    e.stopPropagation();
+                });
+
+                $('body').on('keypress', function(e){
+                    if(!_self.isFillPassword) {
+                        var currentPass = _self.$el.find('.password-input').val();
+                        var newPass = currentPass + String.fromCharCode(e.which)
+                        _self.$el.find('.password-input').val(newPass);
+
+                        if(e.which == 13) {
+                            var currentPass = _self.$el.find('.password-input').val();
+                            if(currentPass.length > 0){
+                                _self.completeFillPassword();
+                            }
+                        }
                     }
                     else{
-                        password += String.fromCharCode(e.which);
-                        encodePassword += "•";
-
-                        _self.$el.find('span').html(encodePassword);
+                        $(this).off('keypress');
                     }
                 });
 
                 $('body').on('keyup', function(e){
-                    if(!isCheckFillPassword)
-                        return;
-
-                    if(e.which == 8){ // backspace
-                        if(password.length > 0){
-                            password = password.substring(0, password.length - 1);
-                            encodePassword = encodePassword.substring(0, encodePassword.length - 1);
-
-                            _self.$el.find('span').html(encodePassword);
-                            if(password.length == 0) {
-                                _self.$el.find('span').html(defaultText);
+                    if(!_self.isFillPassword) {
+                        if(e.which == 8){ // backspace
+                            var currentPass = _self.$el.find('.password-input').val();
+                            if(currentPass.length > 0){
+                                currentPass = currentPass.substring(0, currentPass.length - 1);
+                                _self.$el.find('.password-input').val(currentPass);
                             }
                         }
+                    }
+                    else {
+                        $(this).off('keyup');
                     }
                 });
             },
 
+            completeFillPassword: function(){
+                this.$el.trigger('passwordDone');
+                this.isFillPassword = true;
+                this.$el.addClass('active');
+            },
+
             viewMainPage: function() {
                 if(this.isFillPassword) {
-                    animate(this.$el, {
-                        scale: 10,
-                        translateY: "0px"
-                    }, { 
-                        duration: 1000,
-                        easing: "easeInOutSine"
-                    });
+                    this.$el.trigger('clickPasswordBox');
                 }
             }
         });
