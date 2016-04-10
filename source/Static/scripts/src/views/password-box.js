@@ -16,6 +16,7 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($
     function backboneInit() {
         return Backbone.View.extend({
             isFillPassword: false,
+            numberCharacter: 5,
             events: {                
                 'click': 'viewMainPage'
             },
@@ -27,15 +28,41 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($
             registerEvent: function() {
                 var _self = this;
 
-                this.$el.find('.password-input').focus();
+                var finishFillPassword = function(passwordInput){
+                    var password = $(passwordInput).val();
+                    if(password.length > 0){
+                        _self.completeFillPassword();
+                    }
+                };
+
+                var placeHolder = "";
+                this.$el.find('.password-input').on('focus', function(){
+                    var password = $(this).val();
+                    if(password.length == 0){
+                        placeHolder = $(this).attr('placeholder');
+                        $(this).attr('placeholder', '');
+                    }
+                });
+
+                
+                this.$el.find('.password-input').on('blur', function(){
+                    var password = $(this).val();
+                    if(password.length == 0){
+                        $(this).attr('placeholder', placeHolder);
+                    }
+                    finishFillPassword(this);
+                });
+
                 this.$el.find('.password-input').on('keypress', function(e){
                     e.stopPropagation();
 
                     if(e.which == 13){ // enter
+                        finishFillPassword(this);
+                    }
+                    else{
                         var password = $(this).val();
-                        if(password.length > 0){
-                            $(this).blur();
-                            _self.completeFillPassword();
+                        if(password.length >= _self.numberCharacter){
+                            e.preventDefault();
                         }
                     }
                 });
@@ -47,8 +74,10 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($
                 $('body').on('keypress', function(e){
                     if(!_self.isFillPassword) {
                         var currentPass = _self.$el.find('.password-input').val();
-                        var newPass = currentPass + String.fromCharCode(e.which)
-                        _self.$el.find('.password-input').val(newPass);
+                        var newPass = currentPass + String.fromCharCode(e.which);
+                        if(newPass.length <= _self.numberCharacter){
+                            _self.$el.find('.password-input').val(newPass);
+                        }
 
                         if(e.which == 13) {
                             var currentPass = _self.$el.find('.password-input').val();
@@ -79,9 +108,13 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate'], function ($
             },
 
             completeFillPassword: function(){
-                this.$el.trigger('passwordDone');
-                this.isFillPassword = true;
-                this.$el.addClass('active');
+                if(!this.isActive){
+                    this.isActive = true;
+
+                    this.$el.trigger('passwordDone');
+                    this.isFillPassword = true;
+                    this.$el.addClass('active');
+                }
             },
 
             viewMainPage: function() {

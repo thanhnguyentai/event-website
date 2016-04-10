@@ -41,6 +41,8 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
             },
 
             showVideo: function() {
+                var _self = this;
+
                 this.$el.addClass('active');
 
                 animate(this.$el.find('#passwordBox'), {
@@ -55,12 +57,18 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
                 }, { 
                     duration: 750,
                     easing: "easeInOutSine"
+                }).then(function(){
+                    var videoPlayer = _self.$el.find('#videoPlayer').get(0);
+                    videoPlayer.play();
                 });
             },
 
             showFinalPage: function() {
                 if(this.isShowingFinalPage)
                     return;
+
+                var videoPlayer = this.$el.find('#videoPlayer').get(0);
+                videoPlayer.pause();
 
                 this.isShowingFinalPage = true;
 
@@ -70,6 +78,8 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
                 var boxWidth = $('#passwordBox').width();
 
                 animate($('body'), 'scroll', { offset: 0, duration: 250, easing: "easeInOutQuad" });
+
+                $('#passwordBox .password-text').css('display','none');
 
                 animate($('#passwordBox'), {
                     scale: 1.5 * Math.round(windowWidth/boxWidth),
