@@ -80,27 +80,33 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
                 animate($('body'), 'scroll', { offset: 0, duration: 250, easing: "easeInOutQuad" });
 
                 $('#passwordBox .password-text').css('display','none');
+                this.$el.find('.video-content').css('opacity','0');
+                this.$el.parent().find('.footer-logo').css('opacity','0');
+                $('#passwordBox').addClass('final-stage');
 
                 animate($('#passwordBox'), {
-                    scale: 1.5 * Math.round(windowWidth/boxWidth),
+                    scale: 1.25 * Math.round(windowWidth/boxWidth),
                     translateY: "0px"
                 }, { 
-                    duration: 1000,
+                    duration: 1250,
                     easing: "easeInOutSine"
                 }).then(function(){
+                });
+
+                $('#finalPageContainer').css('display', 'block');
+                animate($('#finalPageContainer'), "fadeIn", {
+                    duration: 250,
+                    easing: "easeInOutSine"
+                }).then(function() {
+                    /*
                     animate($('#firstPageContainer'), "fadeOut", { 
                         duration: 500,
-                        easing: "easeInOutSine"
+                        easing: "easeInOutSine",
+                        delay: 500
                     });
-
-                    $('#finalPageContainer').css('display', 'block');
-                    animate($('#finalPageContainer'), "fadeIn", {
-                        duration: 500,
-                        easing: "easeInOutSine"
-                    }).then(function() {
-                        $('#finalPageContainer').addClass('active');
-                    }); 
-                });
+                    */
+                    $('#finalPageContainer').addClass('active');
+                }); 
             }
         });
     }

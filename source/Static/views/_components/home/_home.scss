@@ -1,3 +1,6 @@
+body{
+	overflow-x: hidden;
+}
 .footer-logo {
 	content: '';
 	width: 32px;
@@ -10,8 +13,10 @@
 .box-container {
 	width: 210px;
 	height: 210px;
+	/*
 	background: url('../img/box.png') no-repeat center center;
 	overflow: hidden;
+	*/
 	position: absolute;
 	z-index: 100;
 	top: 50%;
@@ -29,6 +34,20 @@
 		display: inline-block;
 	}
 
+	&:after {
+		content: '';
+		position: absolute;
+		z-index: 0;
+		border: 1px solid #f5c10e;
+		top: 50%;
+		left: 50%;
+		width: 148px;
+		height: 148px;
+		margin: -74px 0 0 -74px;
+		transform-origin: 50% 50%;
+		transform: rotate(135deg);
+	}
+
 	&.active {
 		cursor: pointer;
 		.password-text {
@@ -36,6 +55,13 @@
 		}
 		.password-input {
 			display: none;
+		}
+	}
+	&.final-stage {
+		cursor: auto;
+
+		&:after {
+			border: 0.25px solid #f5c10e;
 		}
 	}
 
@@ -49,6 +75,8 @@
 		letter-spacing: 4px;
 		max-width: 90%;
 		overflow: hidden;
+		position: relative;
+		z-index: 1;
 	}
 
 	.password-input {
@@ -66,6 +94,8 @@
 		background: none;
 		border: none;
 		outline: none;
+		position: relative;
+		z-index: 1;
 
 		&::-webkit-input-placeholder {
 		   color: #f5c10e;
@@ -147,14 +177,16 @@
 	position: absolute;
 	opacity: 0;
 	display: none;
+	z-index: 100;
 
 	top: 55px;
 	left: 50%;
 	transform: translate(-50%, 0);
 	padding: 0 15px;
 	width: 100%;
+	-webkit-font-smoothing: antialiased;
 
-	&.active {
+	&.active-final {
 		position: relative;
 		top: 0px;
 		margin: 55px auto 0;
@@ -173,10 +205,10 @@
 		opacity: 0;
 
 		.main-page__container.active & {
-			-webkit-animation: fadeIn 1s ease-in-out 0.5s forwards;
-		  	-moz-animation: fadeIn 1s ease-in-out 0.5s forwards;
-		  	-ms-animation: fadeIn 1s ease-in-out 0.5s forwards;
-		  	animation: fadeIn 1s ease-in-out 0.5s forwards;
+			-webkit-animation: fadeIn 1s ease-in-out 0.25s forwards;
+		  	-moz-animation: fadeIn 1s ease-in-out 0.25s forwards;
+		  	-ms-animation: fadeIn 1s ease-in-out 0.25s forwards;
+		  	animation: fadeIn 1s ease-in-out 0.25s forwards;
 		}
 
 		img {
@@ -198,20 +230,20 @@
 		}
 
 		.main-page__container.active & {
-			-webkit-animation: fadeIn 1s ease-in-out 1.5s forwards;
-		  	-moz-animation: fadeIn 1s ease-in-out 1.5s forwards;
-		  	-ms-animation: fadeIn 1s ease-in-out 1.5s forwards;
-		  	animation: fadeIn 1s ease-in-out 1.5s forwards;
+			-webkit-animation: fadeIn 1s ease-in-out 1.25s forwards;
+		  	-moz-animation: fadeIn 1s ease-in-out 1.25s forwards;
+		  	-ms-animation: fadeIn 1s ease-in-out 1.25s forwards;
+		  	animation: fadeIn 1s ease-in-out 1.25s forwards;
 		}
 	}
 	.customer-logo {
 		opacity: 0;
 
 		.main-page__container.active & {
-			-webkit-animation: fadeIn 1s ease-in-out 2.5s forwards;
-		  	-moz-animation: fadeIn 1s ease-in-out 2.5s forwards;
-		  	-ms-animation: fadeIn 1s ease-in-out 2.5s forwards;
-		  	animation: fadeIn 1s ease-in-out 2.5s forwards;
+			-webkit-animation: fadeIn 1s ease-in-out 2.25s forwards;
+		  	-moz-animation: fadeIn 1s ease-in-out 2.25s forwards;
+		  	-ms-animation: fadeIn 1s ease-in-out 2.25s forwards;
+		  	animation: fadeIn 1s ease-in-out 2.25s forwards;
 		}
 
 		img {
@@ -226,10 +258,10 @@
 		opacity: 0;
 
 		.main-page__container.active & {
-			-webkit-animation: fadeIn 1s ease-in-out 3.5s forwards;
-		  	-moz-animation: fadeIn 1s ease-in-out 3.5s forwards;
-		  	-ms-animation: fadeIn 1s ease-in-out 3.5s forwards;
-		  	animation: fadeIn 1s ease-in-out 3.5s forwards;
+			-webkit-animation: fadeIn 1s ease-in-out 3.25s forwards;
+		  	-moz-animation: fadeIn 1s ease-in-out 3.25s forwards;
+		  	-ms-animation: fadeIn 1s ease-in-out 3.25s forwards;
+		  	animation: fadeIn 1s ease-in-out 3.25s forwards;
 		}
 	}
 	&__title {
