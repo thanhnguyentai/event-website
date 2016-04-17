@@ -276,6 +276,7 @@ body{
 			font-size: rem(24px);
 			line-height: rem(34px);
 			text-transform: uppercase;			
+			font-weight: lighter;
 
 			@include respond-to-min($tabletWidth) {
 				font-size: rem(30px);
@@ -316,6 +317,16 @@ body{
 		}
 	}
 	&__footer {
+		margin: rem(0 0 20px);
+
+		@include respond-to-min($tabletWidth) {
+			margin: rem(0 0 60px);
+		}
+
+		@include respond-to-min($desktopWidth) {
+			margin: rem(0 0 120px);
+		}
+
 		&__top {
 			font-size: rem(14px);
 			line-height: rem(20px);
