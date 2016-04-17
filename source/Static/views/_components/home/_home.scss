@@ -8,6 +8,11 @@ body{
 	background: url('../img/footer_logo.png') no-repeat center center;
 	margin: 40px auto 20px;
 	display: block;
+	position: relative;
+
+	.first-page__containter & {
+		opacity: 0;	
+	}
 }
 
 .box-container {

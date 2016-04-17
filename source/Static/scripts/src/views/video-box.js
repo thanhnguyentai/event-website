@@ -22,8 +22,22 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
 
             initialize: function () {
                 this.videoHeight = this.$el.height();
-
                 this.registerEvent();
+
+                var windowHeight = $(window).height();
+                var passwordBox = this.$el.find('#passwordBox').eq(0);
+                var footerLogo = this.$el.parent().find('.footer-logo').eq(0);
+                var footerTop = windowHeight - 70 - (footerLogo.offset().top + footerLogo.height());
+                if(footerLogo.offset().top + footerTop < passwordBox.offset().top + passwordBox.height()){
+                    footerTop = 0;
+                }
+
+                footerLogo.css({
+                    opacity : 1,
+                    top: footerTop
+                });
+
+                this.footerTop = footerTop;
             },
 
             registerEvent: function(){
@@ -53,7 +67,7 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
                 });
 
                 animate(this.$el.parent().find('.footer-logo'), {
-                    translateY: this.$el.find('#passwordBox').height() + 50 + "px"
+                    translateY: this.$el.find('#passwordBox').height() + 50 - this.footerTop + "px"
                 }, { 
                     duration: 750,
                     easing: "easeInOutSine"
@@ -66,47 +80,54 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
             showFinalPage: function() {
                 if(this.isShowingFinalPage)
                     return;
-
+                
+                $('#finalPageContainer').css('display', 'block');
                 var videoPlayer = this.$el.find('#videoPlayer').get(0);
                 videoPlayer.pause();
-
                 this.isShowingFinalPage = true;
 
                 var _self = this;
 
-                var windowWidth = $(window).width();
-                var boxWidth = $('#passwordBox').width();
+                setTimeout(function(){
+                    var firstPage = $('#firstPageContainer');
+                    var finalPage = $('#finalPageContainer');
+                    var finalPageLong = finalPage.height();
 
-                animate($('body'), 'scroll', { offset: 0, duration: 250, easing: "easeInOutQuad" });
+                    var deltaOffset = firstPage.offset().top - finalPage.offset().top;
+                    var positionOfBoxWithFinalPage = deltaOffset + firstPage.height()/2;
+                    var targetTranslate = finalPageLong/2 - positionOfBoxWithFinalPage;
 
-                $('#passwordBox .password-text').css('display','none');
-                this.$el.find('.video-content').css('opacity','0');
-                this.$el.parent().find('.footer-logo').css('opacity','0');
-                $('#passwordBox').addClass('final-stage');
+                    var windowWidth = $(window).width();
+                    var windowHeight = $(window).height();
+                    var finalWidth = windowWidth > windowHeight ? windowWidth : windowHeight;
+                    if(finalWidth < finalPageLong)
+                        finalWidth = finalPageLong;
 
-                animate($('#passwordBox'), {
-                    scale: 1.25 * Math.round(windowWidth/boxWidth),
-                    translateY: "0px"
-                }, { 
-                    duration: 1250,
-                    easing: "easeInOutSine"
-                }).then(function(){
-                });
+                    var boxWidth = $('#passwordBox').width();
 
-                $('#finalPageContainer').css('display', 'block');
-                animate($('#finalPageContainer'), "fadeIn", {
-                    duration: 250,
-                    easing: "easeInOutSine"
-                }).then(function() {
-                    /*
-                    animate($('#firstPageContainer'), "fadeOut", { 
-                        duration: 500,
-                        easing: "easeInOutSine",
-                        delay: 500
+                    animate($('body'), 'scroll', { offset: 0, duration: 250, easing: "easeInOutQuad" });
+
+                    $('#passwordBox .password-text').css('display','none');
+                    _self.$el.find('.video-content').css('opacity','0');
+                    _self.$el.parent().find('.footer-logo').css('opacity','0');
+                    $('#passwordBox').addClass('final-stage');
+
+                    animate($('#passwordBox'), {
+                        scale: 1.3 * Math.round(finalWidth/boxWidth),
+                        translateY: targetTranslate + "px"
+                    }, { 
+                        duration: 1250,
+                        easing: "easeInOutSine"
+                    }).then(function(){
                     });
-                    */
-                    $('#finalPageContainer').addClass('active');
-                }); 
+
+                    animate($('#finalPageContainer'), "fadeIn", {
+                        duration: 250,
+                        easing: "easeInOutSine"
+                    }).then(function() {
+                        $('#finalPageContainer').addClass('active');
+                    }); 
+                }, 100);
             }
         });
     }
