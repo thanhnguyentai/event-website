@@ -57,8 +57,6 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
             showVideo: function() {
                 var _self = this;
 
-                this.$el.addClass('active');
-
                 animate(this.$el.find('#passwordBox'), {
                     translateY: this.videoHeight / 2 + this.$el.find('#passwordBox').height() / 2 + 50 + "px"
                 }, { 
@@ -72,6 +70,7 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
                     duration: 750,
                     easing: "easeInOutSine"
                 }).then(function(){
+                    _self.$el.addClass('active');
                     var videoPlayer = _self.$el.find('#videoPlayer').get(0);
                     videoPlayer.play();
                 });
