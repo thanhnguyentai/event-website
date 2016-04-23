@@ -111,13 +111,24 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
                     _self.$el.parent().find('.footer-logo').css('opacity','0');
                     $('#passwordBox').addClass('final-stage');
 
+                    // Calculate scale value for box border shadow
+                    var scale = 1.3 * Math.round(finalWidth/boxWidth); 
+                    var widthShadowAfterScale = scale * (_self.$el.find('.box-border').width() - 2);
+                    var targetWidthShadowAfterScale = scale * _self.$el.find('.box-border').width() - 4;
+
                     animate($('#passwordBox'), {
-                        scale: 1.3 * Math.round(finalWidth/boxWidth),
+                        scale: scale,
                         translateY: targetTranslate + "px"
                     }, { 
                         duration: 1250,
                         easing: "easeInOutSine"
-                    }).then(function(){
+                    });
+
+                    animate(_self.$el.find('.box-border__shadow'), {
+                        scale: targetWidthShadowAfterScale/widthShadowAfterScale
+                    }, { 
+                        duration: 1250,
+                        easing: "easeInOutSine"
                     });
 
                     animate($('#finalPageContainer'), "fadeIn", {

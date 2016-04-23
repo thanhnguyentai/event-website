@@ -39,18 +39,32 @@ body{
 		display: inline-block;
 	}
 
-	&:after {
+	.box-border {
 		content: '';
 		position: absolute;
 		z-index: 0;
 		border: 1px solid #f5c10e;
 		top: 50%;
 		left: 50%;
-		width: 148px;
-		height: 148px;
-		margin: -74px 0 0 -74px;
+		width: 150px;
+		height: 150px;
+		margin: -75px 0 0 -75px;
 		transform-origin: 50% 50%;
 		transform: rotate(135deg);
+		box-border: box-sizing;
+
+		&__shadow {
+			display: block;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			bottom: 0px;
+			right: 0px;
+			z-index: 0;
+			box-border: box-sizing;
+			border: 1px solid #000;
+			transform-origin: 50% 50%;
+		}
 	}
 
 	&.active {
