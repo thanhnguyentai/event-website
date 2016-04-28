@@ -54,7 +54,7 @@ body{
 		box-border: box-sizing;
 
 		&__shadow {
-			display: block;
+			display: none;
 			position: absolute;
 			top: 0px;
 			left: 0px;
@@ -147,7 +147,7 @@ body{
 			opacity: 1;
 		}
 		
-		img, video {
+		video {
 			opacity: 1;
 			pointer-events: auto;
 		}
@@ -174,7 +174,6 @@ body{
 		opacity: 0;
 
 		pointer-events: none;
-		transition: opacity 1s;
 	}
 
 	video {
@@ -187,8 +186,6 @@ body{
 		opacity: 0;
 
 		pointer-events: none;
-		transition: opacity 1s;
-
 	}
 }
 
