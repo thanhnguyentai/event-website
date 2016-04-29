@@ -71,8 +71,10 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
                     easing: "easeInOutSine"
                 }).then(function(){
                     _self.$el.addClass('active');
-                    var videoPlayer = _self.$el.find('#videoPlayer').get(0);
-                    videoPlayer.play();
+                    setTimeout(function(){
+                        var videoPlayer = _self.$el.find('#videoPlayer').get(0);
+                        videoPlayer.play();
+                    }, 500);
                 });
             },
 
