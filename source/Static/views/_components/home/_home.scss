@@ -52,6 +52,8 @@ body{
 		transform-origin: 50% 50%;
 		transform: rotate(135deg);
 		box-border: box-sizing;
+		-webkit-backface-visibility: hidden;
+		backface-visibility: hidden;
 
 		&__shadow {
 			display: none;
