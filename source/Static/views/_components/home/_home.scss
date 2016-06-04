@@ -149,7 +149,7 @@ body{
 			opacity: 1;
 		}
 		
-		video {
+		video, .video-youtube-container {
 			opacity: 1;
 			pointer-events: auto;
 		}
@@ -178,7 +178,7 @@ body{
 		pointer-events: none;
 	}
 
-	video {
+	video, .video-youtube-container {
 		position: absolute;
 		width: 100%;
 		height: 100%;

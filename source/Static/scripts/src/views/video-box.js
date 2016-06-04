@@ -1,4 +1,4 @@
-define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/modules/screenFull'], function ($, _, backbone, animate, screenFull) {
+define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/modules/screenFull', 'base/modules/video_youtube_module', 'base/modules/eventDispatcher'], function ($, _, backbone, animate, screenFull, videoModule, eventDispatcher) {
 
     'use strict';
 
@@ -21,8 +21,12 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
             },
 
             initialize: function () {
+                this.localDispatcher = eventDispatcher();
+                this.videoId = this.getYoutubeId(this.$el.find('.video-content').attr('data-video'));
+                this.listenTo(this.localDispatcher, 'stateChange.Video', this.stateChange);
+
                 this.videoHeight = this.$el.height();
-                this.registerEvent();
+                //this.registerEvent();
 
                 var windowHeight = $(window).height();
                 var passwordBox = this.$el.find('#passwordBox').eq(0);
@@ -38,6 +42,38 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
                 });
 
                 this.footerTop = footerTop;
+            },
+
+            getYoutubeId: function (url) {
+
+                var id = '';
+
+                url = url.replace(/(>|<)/gi, '').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
+
+                if (url[2] !== undefined) {
+                    id = url[2].split(/[^0-9a-z_\-]/i);
+                    id = id[0];
+                }
+                else {
+                    id = url;
+                }
+
+                return id;
+            },
+
+            stateChange: function(evt, arg){
+                if(evt && evt == "ended") {
+                    if(screenFull.isFullscreen){
+                        screenFull.exit();
+                    }
+
+                    var _self = this;
+
+                    var timeout = setTimeout(function() {
+                        clearTimeout(timeout);
+                        _self.showFinalPage();
+                    }, 1000);
+                }
             },
 
             registerEvent: function(){
@@ -71,11 +107,31 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
                     easing: "easeInOutSine"
                 }).then(function(){
                     _self.$el.addClass('active');
+                    _self.showVideoYoutube();
                     setTimeout(function(){
-                        var videoPlayer = _self.$el.find('#videoPlayer').get(0);
-                        videoPlayer.play();
+                        //var videoPlayer = _self.$el.find('#videoPlayer').get(0);
+                        //videoPlayer.play();
                     }, 500);
                 });
+            },
+
+            showVideoYoutube: function() {
+                videoModule.then(_.bind(this.loadVideo, this));
+            },
+
+            loadVideo: function(api) {
+                this.$playerContainer = $('<div class="video-youtube-container"></div>');
+                this.$el.find('.video-content').eq(0).append(this.$playerContainer);
+
+                return api.create(this.$playerContainer.get(0), {
+                    height: '100%',
+                    width: '100%',
+                    videoId: this.videoId
+                }, this.localDispatcher).then(_.bind(this.ready, this));
+            },
+
+            ready: function(player) {
+                this.player = player;
             },
 
             showFinalPage: function() {
@@ -83,8 +139,11 @@ define(['jquery', 'underscore', 'backbone', 'base/modules/animate', 'base/module
                     return;
                 
                 $('#finalPageContainer').css('display', 'block');
-                var videoPlayer = this.$el.find('#videoPlayer').get(0);
-                videoPlayer.pause();
+                //var videoPlayer = this.$el.find('#videoPlayer').get(0);
+                //videoPlayer.pause();
+                if(this.player) {
+                    this.player.base.pauseVideo();
+                }
                 this.isShowingFinalPage = true;
 
                 var _self = this;
